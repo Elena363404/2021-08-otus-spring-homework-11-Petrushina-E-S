@@ -2,6 +2,8 @@ package ru.otus.elena363404.changelogTest;
 
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
+
+
 import com.mongodb.client.MongoDatabase;
 import ru.otus.elena363404.domain.Author;
 import ru.otus.elena363404.domain.Book;
@@ -30,47 +32,47 @@ public class DatabaseChangelog {
     @ChangeSet(order = "001", id = "initAuthor", author = "elena363404")
     public void initAuthor(AuthorRepository repository) {
         authorList = new ArrayList<>();
-        authorList.add(new Author(MongoIdForTest.idAuthor1, "Stephen King"));
-        authorList.add(new Author(MongoIdForTest.idAuthor2, "Alexander Pushkin"));
-        authorList.add(new Author(MongoIdForTest.idAuthor3, "Isaak Newton"));
-        authorList.add(new Author(MongoIdForTest.idAuthor4, "Vladimir Lenin"));
-        authorList.add(new Author(MongoIdForTest.idAuthor5, "Marina Tsvetaeva"));
+        authorList.add(new Author("Stephen King"));
+        authorList.add(new Author("Alexander Pushkin"));
+        authorList.add(new Author("Isaak Newton"));
+        authorList.add(new Author("Vladimir Lenin"));
+        authorList.add(new Author("Marina Tsvetaeva"));
         for (int i = 0; i < authorList.size(); i++) {
-            repository.save(authorList.get(i)).subscribe();
+            repository.save(authorList.get(i)).block();
         }
     }
 
     @ChangeSet(order = "002", id = "initGenre", author = "elena363404")
     public void initGenre(GenreRepository repository) {
         genreList = new ArrayList<>();
-        genreList.add(new Genre(MongoIdForTest.idGenre1, "Fantastic"));
-        genreList.add(new Genre(MongoIdForTest.idGenre2, "Political"));
-        genreList.add(new Genre(MongoIdForTest.idGenre3, "Novel"));
-        genreList.add(new Genre(MongoIdForTest.idGenre4, "Horror"));
-        genreList.add(new Genre(MongoIdForTest.idGenre5, "Horror-123"));
+        genreList.add(new Genre("Fantastic"));
+        genreList.add(new Genre("Political"));
+        genreList.add(new Genre("Novel"));
+        genreList.add(new Genre("Horror"));
+        genreList.add(new Genre("Horror-123"));
         for (int i = 0; i < genreList.size(); i++) {
-            repository.save(genreList.get(i)).subscribe();
+            repository.save(genreList.get(i)).block();
         }
     }
 
     @ChangeSet(order = "003", id = "initBook", author = "elena363404")
     public void initBook(BookRepository repository) {
         bookList = new ArrayList<>();
-        bookList.add(new Book(MongoIdForTest.idBook1, "Doughter of Capitan", authorList.get(1), genreList.get(2)));
-        bookList.add(new Book(MongoIdForTest.idBook2, "Apocalypse", authorList.get(2), genreList.get(0)));
-        bookList.add(new Book(MongoIdForTest.idBook3, "Revolution-1", authorList.get(3), genreList.get(1)));
-        bookList.add(new Book(MongoIdForTest.idBook4, "Revolution-2", authorList.get(3), genreList.get(1)));
-        bookList.add(new Book(MongoIdForTest.idBook5, "It", authorList.get(0), genreList.get(3)));
+        bookList.add(new Book("Doughter of Capitan", authorList.get(1), genreList.get(2)));
+        bookList.add(new Book("Apocalypse", authorList.get(2), genreList.get(0)));
+        bookList.add(new Book("Revolution-1", authorList.get(3), genreList.get(1)));
+        bookList.add(new Book("Revolution-2", authorList.get(3), genreList.get(1)));
+        bookList.add(new Book("It", authorList.get(0), genreList.get(3)));
         for (int i = 0; i < bookList.size(); i++) {
-            repository.save(bookList.get(i)).subscribe();
+            repository.save(bookList.get(i)).block();
         }
     }
 
     @ChangeSet(order = "004", id = "initComment", author = "elena363404")
     public void initComment(CommentRepository repository) {
-        repository.save(new Comment(MongoIdForTest.idComment1, "Good book!", bookList.get(0))).subscribe();
-        repository.save(new Comment(MongoIdForTest.idComment2, "Bad book!", bookList.get(0))).subscribe();
-        repository.save(new Comment(MongoIdForTest.idComment3, "Norm book!", bookList.get(1))).subscribe();
+        repository.save(new Comment("Good book!", bookList.get(0))).block();
+        repository.save(new Comment("Bad book!", bookList.get(0))).block();
+        repository.save(new Comment("Norm book!", bookList.get(1))).block();
     }
 
 }
