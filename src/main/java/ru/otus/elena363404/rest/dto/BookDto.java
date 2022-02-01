@@ -3,14 +3,9 @@ package ru.otus.elena363404.rest.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import ru.otus.elena363404.domain.Author;
 import ru.otus.elena363404.domain.Book;
 import ru.otus.elena363404.domain.Genre;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
@@ -91,34 +86,6 @@ public class BookDto {
     Book book = new Book(bookDto.getId(), bookDto.getName(), authorId == "0" ? null : new Author(authorId, bookDto.getAuthorName()), genreId == "0" ? null : new Genre(genreId, bookDto.getGenreName()));
 
     return book;
-  }
-
-  public static Flux<BookDto> bookDtoListToFlux(List<BookDto> bookDtoList) {
-    Flux<BookDto> bookDtoFlux = Flux.fromIterable(bookDtoList);
-    return bookDtoFlux;
-  }
-
-  public static Mono<BookDto> bookDtoToBookDtoMono(BookDto bookDto) {
-    Mono<BookDto> bookDtoMono = Mono.just(bookDto);
-    return bookDtoMono;
-  }
-
-  public static Mono<BookDto> bookMonoToBookDtoMono(Mono<Book> bookMono) {
-    Book book = bookMonoToBook(bookMono);
-    BookDto bookDto = bookToBookDto(book);
-    Mono<BookDto> bookDtoMono = bookDtoToBookDtoMono(bookDto);
-    return bookDtoMono;
-  }
-
-  public static Book bookMonoToBook(Mono<Book> bookMono) {
-    Book book = bookMono.block();
-    return book;
-  }
-
-  public static Flux<BookDto> bookFluxToBookDtoFlux(Flux<Book> bookFlux) {
-    List<Book> bookList = bookFlux.collectList().block();
-    List<BookDto> bookDtoList = bookList.stream().map(BookDto::bookToBookDto).collect(Collectors.toList());
-    return bookDtoListToFlux(bookDtoList);
   }
 
 }

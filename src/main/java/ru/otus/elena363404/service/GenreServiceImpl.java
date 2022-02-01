@@ -9,8 +9,6 @@ import ru.otus.elena363404.domain.Genre;
 import ru.otus.elena363404.repository.BookRepository;
 import ru.otus.elena363404.repository.GenreRepository;
 
-import java.util.List;
-
 @Service
 @AllArgsConstructor
 public class GenreServiceImpl implements GenreService {
@@ -26,12 +24,8 @@ public class GenreServiceImpl implements GenreService {
   @Override
   public Mono<Void> deleteGenre(String id) {
     Flux<Book> bookFlux = bookRepository.findByGenre(genreRepository.findById(id));
-    List<Book> bookList = bookFlux.collectList().block();
 
-    for (int i = 0; i < bookList.size(); i++) {
-      Book book = bookList.get(i);
-      bookRepository.save(new Book(book.getId(), book.getName(), book.getAuthor(), null)).subscribe();
-    }
+    bookFlux.map(book -> bookRepository.save(new Book(book.getId(), book.getName(), book.getAuthor(), null)).subscribe());
 
     return genreRepository.deleteById(id);
   }

@@ -18,9 +18,9 @@ public class CommentController {
 
   @PutMapping("/api/comment/{id}")
   public Mono<CommentDto> editComment(@RequestBody CommentDto commentDto) {
-    Comment comment = commentDtoToComment(commentDto);
-    Mono<Comment> commentMono = commentService.saveComment(comment);
-    return commentMonoToCommentDtoMono(commentMono);
+    Mono<CommentDto> commentDtoMono = (commentService.saveComment(commentDtoToComment(commentDto))).map(CommentDto::commentToCommentDto);
+
+    return commentDtoMono;
   }
 
   @DeleteMapping("/api/comment/{id}")
@@ -30,8 +30,7 @@ public class CommentController {
 
   @GetMapping("/api/comment")
   public Flux<CommentDto> getAllComments() {
-    Flux<Comment> commentFlux = commentService.getAllComment();
-    Flux<CommentDto> commentDtoFlux = commentFluxToCommentDtoFlux(commentFlux);
+    Flux<CommentDto> commentDtoFlux = (commentService.getAllComment()).map(CommentDto::commentToCommentDto);
     return commentDtoFlux;
   }
 

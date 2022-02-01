@@ -17,16 +17,14 @@ public class BookController {
 
   @PutMapping("/api/book/{id}")
   public Mono<BookDto> editBook(@RequestBody BookDto bookDto) {
-    Book book = bookDtoToBook(bookDto);
-    Mono<Book> saved = bookService.saveBook(book);
-    return bookMonoToBookDtoMono(saved);
+    Mono<BookDto> saved = (bookService.saveBook(bookDtoToBook(bookDto))).map(BookDto::bookToBookDto);
+    return saved;
   }
 
   @PostMapping("/api/book")
   public Mono<BookDto> addBook(@RequestBody BookDto bookDto) {
-    Book book = bookDtoToBook(bookDto);
-    Mono<Book> saved = bookService.saveBook(book);
-    return bookMonoToBookDtoMono(saved);
+    Mono<BookDto> saved = (bookService.saveBook(bookDtoToBook(bookDto))).map(BookDto::bookToBookDto);
+    return saved;
   }
 
   @DeleteMapping("/api/book/{id}")
@@ -41,8 +39,7 @@ public class BookController {
 
   @GetMapping("/api/book")
   public Flux<BookDto> getAllBooks() {
-    Flux<Book> bookFlux = bookService.getAllBook();
-    Flux<BookDto> bookDtoFlux = bookFluxToBookDtoFlux(bookFlux);
+    Flux<BookDto> bookDtoFlux = (bookService.getAllBook()).map(BookDto::bookToBookDto);
 
     return bookDtoFlux;
   }

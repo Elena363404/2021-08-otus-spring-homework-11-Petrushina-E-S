@@ -38,7 +38,7 @@ public class DatabaseChangelog {
         authorList.add(new Author("Vladimir Lenin"));
         authorList.add(new Author("Marina Tsvetaeva"));
         for (int i = 0; i < authorList.size(); i++) {
-            repository.save(authorList.get(i)).subscribe();
+            repository.save(authorList.get(i)).block();
         }
     }
 
@@ -51,7 +51,7 @@ public class DatabaseChangelog {
         genreList.add(new Genre("Horror"));
         genreList.add(new Genre("Horror-123"));
         for (int i = 0; i < genreList.size(); i++) {
-            repository.save(genreList.get(i)).subscribe();
+            repository.save(genreList.get(i)).block();
         }
     }
 
@@ -64,15 +64,15 @@ public class DatabaseChangelog {
         bookList.add(new Book("Revolution-2", authorList.get(3), genreList.get(1)));
         bookList.add(new Book("It", authorList.get(0), genreList.get(3)));
         for (int i = 0; i < bookList.size(); i++) {
-            repository.save(bookList.get(i)).subscribe();
+            repository.save(bookList.get(i)).block();
         }
     }
 
     @ChangeSet(order = "004", id = "initComment", author = "elena363404")
     public void initComment(CommentRepository repository) {
-        repository.save(new Comment("Good book!", bookList.get(0))).subscribe();
-        repository.save(new Comment("Bad book!", bookList.get(0))).subscribe();
-        repository.save(new Comment("Norm book!", bookList.get(1))).subscribe();
+        repository.save(new Comment("Good book!", bookList.get(0))).block();
+        repository.save(new Comment("Bad book!", bookList.get(0))).block();
+        repository.save(new Comment("Norm book!", bookList.get(1))).block();
     }
 
 }
