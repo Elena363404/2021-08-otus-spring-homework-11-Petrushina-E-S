@@ -25,10 +25,6 @@ public class AuthorServiceImpl implements AuthorService {
 
   @Override
   public Mono<Void> deleteAuthor(String id) {
-    Flux<Book> bookFlux = bookRepository.findByAuthor(authorRepository.findById(id));
-
-    bookFlux.map(book -> bookRepository.save(new Book(book.getId(), book.getName(), null, book.getGenre())).subscribe());
-
     return authorRepository.deleteById(id);
   }
 

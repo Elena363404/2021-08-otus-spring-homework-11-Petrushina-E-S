@@ -12,6 +12,8 @@ public interface CommentService {
 
   Mono<Void> deleteComment(String id);
 
+  Mono<Void> deleteCommentByBookId(String id);
+
   Mono<Comment> getCommentById(String id);
 
   Flux<Comment> getAllComment();

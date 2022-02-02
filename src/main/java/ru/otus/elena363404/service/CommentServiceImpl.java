@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ru.otus.elena363404.domain.Comment;
+import ru.otus.elena363404.repository.BookRepository;
 import ru.otus.elena363404.repository.CommentRepository;
 
 
@@ -35,5 +36,10 @@ public class CommentServiceImpl implements CommentService {
   @Override
   public Flux<Comment> getAllComment() {
     return commentRepository.findAll();
+  }
+
+  @Override
+  public Mono<Void> deleteCommentByBookId(String id) {
+    return commentRepository.deleteCommentByBookId(id);
   }
 }

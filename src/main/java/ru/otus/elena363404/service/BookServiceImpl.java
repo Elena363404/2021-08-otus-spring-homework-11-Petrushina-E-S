@@ -26,18 +26,7 @@ public class BookServiceImpl implements BookService {
 
   @Override
   public Mono<Void> deleteBook(String id) {
-    Flux<Comment> commentFlux = commentRepository.findByBook(bookRepository.findById(id));
-
-    List<Comment> commentList = commentFlux.collectList().block();
-
-    Mono<Void> bookVoid = bookRepository.deleteById(id);
-
-    for (int i = 0; i < commentList.size(); i++) {
-      Mono<Void> commentMono = commentRepository.deleteById(commentList.get(i).getId());
-      bookVoid.concatWith(commentMono).subscribe();
-    }
-
-    return bookVoid;
+    return bookRepository.deleteById(id);
   }
 
   @Override

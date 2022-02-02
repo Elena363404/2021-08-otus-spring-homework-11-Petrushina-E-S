@@ -7,6 +7,7 @@ import reactor.core.publisher.Mono;
 import ru.otus.elena363404.domain.Book;
 import ru.otus.elena363404.rest.dto.BookDto;
 import ru.otus.elena363404.service.BookService;
+import ru.otus.elena363404.service.CommentService;
 
 import static ru.otus.elena363404.rest.dto.BookDto.*;
 
@@ -14,6 +15,7 @@ import static ru.otus.elena363404.rest.dto.BookDto.*;
 @AllArgsConstructor
 public class BookController {
   private final BookService bookService;
+  private final CommentService commentService;
 
   @PutMapping("/api/book/{id}")
   public Mono<BookDto> editBook(@RequestBody BookDto bookDto) {
@@ -28,8 +30,11 @@ public class BookController {
   }
 
   @DeleteMapping("/api/book/{id}")
-  public Mono<Void> deleteBook(@PathVariable("id") String id) {
-    return  bookService.deleteBook(id);
+  public Flux<Void> deleteBook(@PathVariable("id") String id) {
+
+    Flux<Void> monoVoidComment = (commentService.deleteCommentByBookId(id)).concatWith(bookService.deleteBook(id));
+
+    return monoVoidComment;
   }
 
   @GetMapping("/api/book/{id}")
