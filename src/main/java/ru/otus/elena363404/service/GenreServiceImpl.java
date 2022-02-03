@@ -23,7 +23,10 @@ public class GenreServiceImpl implements GenreService {
 
   @Override
   public Mono<Void> deleteGenre(String id) {
-    return genreRepository.deleteById(id);
+    Flux<Book> bookFlux = bookRepository.findByGenre(genreRepository.findById(id))
+      .flatMap(book -> {book.setGenre(null); return bookRepository.save(book);});
+
+    return bookFlux.ignoreElements().then(genreRepository.deleteById(id));
   }
 
   @Override

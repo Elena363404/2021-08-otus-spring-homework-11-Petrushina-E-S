@@ -9,7 +9,6 @@ import ru.otus.elena363404.domain.Book;
 import ru.otus.elena363404.repository.AuthorRepository;
 import ru.otus.elena363404.repository.BookRepository;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +24,11 @@ public class AuthorServiceImpl implements AuthorService {
 
   @Override
   public Mono<Void> deleteAuthor(String id) {
-    return authorRepository.deleteById(id);
+
+    Flux<Book> bookFlux = bookRepository.findByAuthor(authorRepository.findById(id))
+      .flatMap(book -> {book.setAuthor(null); return bookRepository.save(book);});
+
+    return bookFlux.ignoreElements().then(authorRepository.deleteById(id));
   }
 
   @Override

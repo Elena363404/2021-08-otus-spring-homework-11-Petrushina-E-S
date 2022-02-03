@@ -30,9 +30,9 @@ public class BookController {
   }
 
   @DeleteMapping("/api/book/{id}")
-  public Flux<Void> deleteBook(@PathVariable("id") String id) {
+  public Mono<Void> deleteBook(@PathVariable("id") String id) {
 
-    Flux<Void> monoVoidComment = (commentService.deleteCommentByBookId(id)).concatWith(bookService.deleteBook(id));
+    Mono<Void> monoVoidComment = commentService.deleteCommentByBookId(id).then(bookService.deleteBook(id));
 
     return monoVoidComment;
   }
