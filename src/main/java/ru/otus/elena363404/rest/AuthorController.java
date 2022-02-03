@@ -21,7 +21,6 @@ public class AuthorController {
 
   @DeleteMapping("/api/author/{id}")
   public Mono<Void> deleteAuthor(@PathVariable("id") String id)  {
-
     return authorService.deleteAuthor(id);
   }
 
