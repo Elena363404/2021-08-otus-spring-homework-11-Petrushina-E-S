@@ -3,9 +3,7 @@ package ru.otus.elena363404.repository;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import ru.otus.elena363404.domain.Author;
 import ru.otus.elena363404.domain.Book;
-import ru.otus.elena363404.domain.Genre;
 
 public interface BookRepository extends ReactiveMongoRepository<Book, String> {
 
@@ -15,8 +13,8 @@ public interface BookRepository extends ReactiveMongoRepository<Book, String> {
 
   Flux<Book> findAll();
 
-  Flux<Book> findByAuthor(Mono<Author> author);
+  Mono<Boolean> existsByAuthorId(String authorId);
 
-  Flux<Book> findByGenre(Mono<Genre> genre);
+  Mono<Boolean> existsByGenreId(String genreId);
 
 }

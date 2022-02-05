@@ -5,12 +5,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ru.otus.elena363404.domain.Book;
-import ru.otus.elena363404.domain.Comment;
 import ru.otus.elena363404.repository.BookRepository;
 import ru.otus.elena363404.repository.CommentRepository;
-
-import java.util.List;
-
 
 @Service
 @AllArgsConstructor
@@ -38,5 +34,15 @@ public class BookServiceImpl implements BookService {
   @Override
   public Flux<Book> getAllBook() {
     return bookRepository.findAll();
+  }
+
+  @Override
+  public Mono<Boolean> existsByAuthorId(String authorId) {
+    return bookRepository.existsByAuthorId(authorId);
+  }
+
+  @Override
+  public Mono<Boolean> existsByGenreId(String genreId) {
+    return bookRepository.existsByGenreId(genreId);
   }
 }

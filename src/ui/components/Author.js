@@ -36,9 +36,13 @@ export default class Author extends React.Component {
     }
 
     handleDeleteAuthorRow(id) {
-        fetch(`/api/author/${id}`, {method: 'DELETE'})
-            .then(() => this.props.refreshBookInApp())
-            .then(() => this.props.refreshAuthorInApp())
+        fetch(`/api/author/${id}`, {method: 'DELETE'}).then((response) => {
+            if (!response.ok) {
+              response.json().then((resp) => alert(resp.message))
+            }
+        })
+        .then(() => this.props.refreshBookInApp())
+        .then(() => this.props.refreshAuthorInApp());
     }
 
     refreshAuthors() {

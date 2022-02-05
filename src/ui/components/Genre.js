@@ -42,9 +42,13 @@ export default class Genre extends React.Component {
     }
 
     handleDeleteGenreRow(id) {
-        fetch(`/api/genre/${id}`, {method: 'DELETE'})
-            .then(() => this.props.refreshGenreInApp())
-            .then(() => this.props.refreshBookInApp());
+        fetch(`/api/genre/${id}`, {method: 'DELETE'}).then((response) => {
+                if (!response.ok) {
+                  response.json().then((resp) => alert(resp.message))
+                }
+            })
+        .then(() => this.props.refreshGenreInApp())
+        .then(() => this.props.refreshBookInApp());
     }
 
     render() {

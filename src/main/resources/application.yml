@@ -6,6 +6,9 @@ spring:
       host: localhost
       port: 27017
       database: testMongo10
+server:
+  error:
+    include-message: always
 mongock:
   # runner-type: "InitializingBean"
   runner-type: "ApplicationRunner"

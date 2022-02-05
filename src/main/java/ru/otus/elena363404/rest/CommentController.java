@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import ru.otus.elena363404.domain.Comment;
 import ru.otus.elena363404.rest.dto.CommentDto;
 import ru.otus.elena363404.service.CommentService;
 
